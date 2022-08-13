@@ -2,6 +2,7 @@ package gui
 
 import (
 	"image/color"
+	"log"
 
 	"fyne.io/fyne/v2"
 	"fyne.io/fyne/v2/app"
@@ -70,4 +71,28 @@ func GenKeyWindow() {
 	w.SetContent(container.New(layout.NewVBoxLayout(), centered))
 	w.ShowAndRun()
 
+}
+
+func Form() {
+	a := app.New()
+	w := a.NewWindow("Grid Layout")
+	w.Resize(fyne.NewSize(500, 400))
+	entry := widget.NewEntry()
+	textArea := widget.NewMultiLineEntry()
+
+	form := &widget.Form{
+		Items: []*widget.FormItem{ // we can specify items in the constructor
+			{Text: "Secret", Widget: entry}},
+		OnSubmit: func() { // optional, handle form submission
+			log.Println("Form submitted:", entry.Text)
+			log.Println("multiline:", textArea.Text)
+			w.Close()
+		},
+	}
+
+	// we can also append items
+	form.Append("Text", textArea)
+
+	w.SetContent(form)
+	w.ShowAndRun()
 }
